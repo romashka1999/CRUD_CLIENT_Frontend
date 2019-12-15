@@ -1,8 +1,27 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueRouter from 'vue-router';
+import Login from './components/Login';
+import Register from './components/Register';
+import Home from './components/Home';
 
-Vue.config.productionTip = false
+Vue.use(VueRouter);
+
+const routes = [
+  {path:'/', component: Home},
+  {path:'/signIn', component: Login},
+  {path:'/signUp', component: Register}
+];
+
+const router = new VueRouter({
+  mode: 'history',
+  routes: routes
+});
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
+  el: '#app',
+  router,
+  render: h => {
+    return h(App);
+  }
+});
