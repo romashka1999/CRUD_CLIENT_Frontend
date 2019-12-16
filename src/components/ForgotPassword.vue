@@ -42,7 +42,7 @@ export default {
     name: 'ForgotPassword',
     data() {
         return {
-
+            baseUrl: 'http://localhost:8000',
         }
     },
     created() {
