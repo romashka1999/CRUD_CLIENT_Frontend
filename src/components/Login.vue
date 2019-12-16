@@ -40,7 +40,7 @@
                                 <div class="col-md-12 control">
                                     <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
                                         Don't have an account! 
-                                        <router-link :to="{ path: '/register'}" append>Sign Up Here</router-link>
+                                        <router-link :to="{ path: '/register'}" append>Register Here</router-link>
                                     </div>
                                 </div>
                             </div>    
