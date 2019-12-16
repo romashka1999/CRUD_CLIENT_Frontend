@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-md-12">
                 <div>
                     <router-link :to="{ path: '/login'}" append>Login Here</router-link>
                 </div>
@@ -23,10 +23,10 @@
                         </div>
 
                         <div class="form-group">
-                            <input name="recover-submit" class="btn btn-lg btn-primary btn-block" value="Reset Password" type="submit">
+                            <button type="button" class="btn btn-lg btn-primary btn-block" @click="ForgotPassword">Reset Password</button>
                         </div>
                     
-                        <input type="hidden" class="hide" name="token" id="token" value=""> 
+                        <input type="text" class="hide" name="token" id="token" value=""> 
                     </form>
 
                     </div>
@@ -51,7 +51,9 @@ export default {
         }
     },
     methods: {
-        
+        ForgotPassword() {
+            console.log('object');
+        }
     }
 }
 </script>

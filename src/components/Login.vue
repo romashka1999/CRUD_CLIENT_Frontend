@@ -1,57 +1,49 @@
 <template>
     <div class="container">   
+        <div class="card-body" >
+            <div v-if="statusCode !== 200" class="col-md-12">
+                <div class="alert" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
+                    {{alertMessage}}
+                </div>
+            </div>
 
-          
-                <div class="panel panel-info" >
+            <div class="col-md-12">
+                <router-link :to="{ path: '/forgotPassword'}" append>Forgot password?</router-link>
+            </div>   
+                
+            <form>         
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Email Or Username</label>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control" placeholder="Email Or Username" v-model="emailOrUsername"/>
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Password</label>
+                    <div class="col-md-12">
+                        <input type="password" class="form-control" placeholder="Password" v-model="password"/>
+                    </div>
+                </div>
 
-                    <div class="panel-heading">
-                        <router-link :to="{ path: '/forgotPassword'}" append>Forgot password?</router-link>
-                    </div>     
 
-                    <div style="padding-top:30px" class="card-body" >
+                <div  class="form-group">
+                    <div class="col-sm-12 controls">
+                        <button type="button" class="btn btn-success" @click="loginUser">Login </button>
+                    </div>
+                </div>
 
-                        <div v-if="statusCode !== 200">
-                            <div class="alert col-sm-9" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
-                                {{alertMessage}}
-                            </div>
+
+                <div class="form-group">
+                    <div class="col-md-12 control">
+                        <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
+                            Don't have an account! 
+                            <router-link :to="{ path: '/register'}" append>Register Here</router-link>
                         </div>
-                            
-                        <form id="loginform" class="form-horizontal" role="form">
-                                    
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Email Or Username</label>
-                                <div class="col-md-9">
-                                    <input type="text" class="form-control" placeholder="Email Or Username" v-model="emailOrUsername"/>
-                                </div>
-                            </div>
-                                
-                            <div class="form-group">
-                                <label class="col-md-3 control-label">Password</label>
-                                <div class="col-md-9">
-                                    <input type="password" class="form-control" placeholder="Password" v-model="password"/>
-                                </div>
-                            </div>
-
-
-                            <div  class="form-group">
-                                <div class="col-sm-12 controls">
-                                    <button type="button" class="btn btn-success" @click="loginUser">Login </button>
-                                </div>
-                            </div>
-
-
-                            <div class="form-group">
-                                <div class="col-md-12 control">
-                                    <div style="border-top: 1px solid#888; padding-top:15px; font-size:85%" >
-                                        Don't have an account! 
-                                        <router-link :to="{ path: '/register'}" append>Register Here</router-link>
-                                    </div>
-                                </div>
-                            </div>    
-                        </form>     
-
-                    </div>                     
-                </div>  
+                    </div>
+                </div>    
+            </form>      
+        </div>  
     </div>
 </template>
 

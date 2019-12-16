@@ -4,62 +4,62 @@
         <div class="card-body" >
             <form >
                 
-                <div v-if="statusCode !== 200">
-                    <div class="alert col-sm-9" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
+                <div v-if="statusCode !== 200" class="col-md-12">
+                    <div class="alert" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
                         {{alertMessage}}
                     </div>
                 </div>
 
-                <div>
+                <div class="col-md-12">
                     <router-link :to="{ path: '/login'}" append>Login here</router-link>
                 </div>
                     
                     
                 <div class="form-group">
                     <label class="col-md-3 control-label">First Name</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="First Name" v-model="firstName"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Last Name</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Last Name" v-model="lastName"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Username</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="text" class="form-control" placeholder="Username" v-model="username"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Email</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="email" class="form-control" placeholder="Email Address" v-model="email"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Password</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="password" class="form-control"  placeholder="Password" v-model="password"/>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Password Repeat</label>
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <input type="password" class="form-control"  placeholder="Password Repeat" v-model="repeatedPassword"/>
                     </div>
                 </div>
                     
 
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-9">
+                    <div class="col-md-offset-3 col-md-12">
                         <button type="button" class="btn btn-info" @click="registerUser">Register</button>
                     </div>
                 </div>
