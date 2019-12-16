@@ -1,7 +1,7 @@
 <template>
     <div class="container">   
 
-            <div id="loginbox" style="margin-top:50px;" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">    
+          
                 <div class="panel panel-info" >
 
                     <div class="panel-heading">
@@ -10,28 +10,32 @@
 
                     <div style="padding-top:30px" class="card-body" >
 
-                        <div style="display:none" id="login-alert" class="alert alert-danger col-sm-12"></div>
+                        <div v-if="statusCode !== 200">
+                            <div class="alert col-sm-9" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
+                                {{alertMessage}}
+                            </div>
+                        </div>
                             
                         <form id="loginform" class="form-horizontal" role="form">
                                     
                             <div class="form-group">
-                                <label for="email" class="col-md-3 control-label">Email</label>
+                                <label class="col-md-3 control-label">Email Or Username</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    <input type="text" class="form-control" placeholder="Email Or Username" v-model="emailOrUsername"/>
                                 </div>
                             </div>
                                 
                             <div class="form-group">
-                                <label for="email" class="col-md-3 control-label">Email</label>
+                                <label class="col-md-3 control-label">Password</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="email" placeholder="Email Address">
+                                    <input type="password" class="form-control" placeholder="Password" v-model="password"/>
                                 </div>
                             </div>
 
 
                             <div  class="form-group">
                                 <div class="col-sm-12 controls">
-                                    <button id="btn-login" type="button" class="btn btn-success">Login </button>
+                                    <button type="button" class="btn btn-success" @click="loginUser">Login </button>
                                 </div>
                             </div>
 
@@ -48,7 +52,6 @@
 
                     </div>                     
                 </div>  
-            </div>
     </div>
 </template>
 
@@ -61,11 +64,17 @@ export default {
         return {
             baseUrl: 'http://localhost:8000',
             emailOrUsername: '',
-            password: ''
+            password: '',
+            statusCode: 200,
+            alertMessage: ''
         }
     },
     methods: {
         async loginUser() {
+
+            if(!this.validateLoginForm()) {
+                return 
+            }
             const loginedUser = {
                 emailOrUsername: this.emailOrUsername,
                 password: this.password
@@ -79,7 +88,25 @@ export default {
                 this.$router.push('/');
             } catch (error) {
                 console.log(error.response.data);
+                this.alertM(400, error.response.data.message);
             }
+        },
+        validateLoginForm() {
+            if(this.emailOrUsername === '' || this.password === '') {
+                    this.alertM(300, 'please fill all input value');
+                    return false;
+            }
+
+            return true;
+        },
+        alertM(statusCode, alertMessage) {
+            this.statusCode = statusCode;
+            this.alertMessage = alertMessage;
+
+            setTimeout( function () {
+                this.statusCode = 200;
+                this.alertMessage = '';
+            }.bind(this), 4000);
         }
     }
 }

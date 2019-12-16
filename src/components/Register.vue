@@ -4,48 +4,63 @@
         <div class="card-body" >
             <form >
                 
-                <div id="register-alert" class="alert alert-danger col-sm-9"></div>
-                <router-link :to="{ path: '/login'}" append>Login here</router-link>
-                    
-
-                <div class="form-group">
-                    <label for="email" class="col-md-3 control-label">Email</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="email" placeholder="Email Address">
-                    </div>
-                </div>
-                    
-                <div class="form-group">
-                    <label for="firstname" class="col-md-3 control-label">First Name</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+                <div v-if="statusCode !== 200">
+                    <div class="alert col-sm-9" :class="statusCode === 400 ? 'alert-danger' : 'alert-warning'">
+                        {{alertMessage}}
                     </div>
                 </div>
 
+                <div>
+                    <router-link :to="{ path: '/login'}" append>Login here</router-link>
+                </div>
+                    
+                    
                 <div class="form-group">
-                    <label for="lastname" class="col-md-3 control-label">Last Name</label>
+                    <label class="col-md-3 control-label">First Name</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+                        <input type="text" class="form-control" placeholder="First Name" v-model="firstName"/>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="password" class="col-md-3 control-label">Password</label>
+                    <label class="col-md-3 control-label">Last Name</label>
                     <div class="col-md-9">
-                        <input type="password" class="form-control" name="passwd" placeholder="Password">
+                        <input type="text" class="form-control" placeholder="Last Name" v-model="lastName"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Username</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="Username" v-model="username"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Email</label>
+                    <div class="col-md-9">
+                        <input type="email" class="form-control" placeholder="Email Address" v-model="email"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Password</label>
+                    <div class="col-md-9">
+                        <input type="password" class="form-control"  placeholder="Password" v-model="password"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Password Repeat</label>
+                    <div class="col-md-9">
+                        <input type="password" class="form-control"  placeholder="Password Repeat" v-model="repeatedPassword"/>
                     </div>
                 </div>
                     
-                <div class="form-group">
-                    <label for="icode" class="col-md-3 control-label">Invitation Code</label>
-                    <div class="col-md-9">
-                        <input type="text" class="form-control" name="icode" placeholder="">
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
-                        <button id="btn-signup" type="button" class="btn btn-info"><i class="icon-hand-right"></i>Register</button>
+                        <button type="button" class="btn btn-info" @click="registerUser">Register</button>
                     </div>
                 </div>
 
@@ -69,7 +84,9 @@ export default {
             username: '',
             email: '',
             password: '',
-            repeatedPassword: ''
+            repeatedPassword: '',
+            statusCode: 200,
+            alertMessage: ''
         }
     },
     created() {
@@ -77,8 +94,9 @@ export default {
     },
     methods: {
         async registerUser() {
-            if(this.password !== this.repeatedPassword) {
-                return;
+            
+            if(!this.validateRegisterForm()) {
+                return 
             }
 
             const newUser = {
@@ -89,14 +107,41 @@ export default {
                 password: this.password
             }
 
+            console.log(newUser);
+
             try {
                 const response = await axios.post(this.baseUrl + '/account/createUser', newUser);
                 console.log(response);
                 this.$router.push('/login');
             } catch (error) {
                 console.log(error.response.data);
+                this.alertM(400, error.response.data.message);
             }
+        },
+        validateRegisterForm() {
+            if(this.firstName === '' || this.lastName === '' || this.username === '' ||
+                this.email === '' || this.password === '' || this.repeatedPassword === '') {
+                    this.alertM(300, 'please fill all input value');
+                    return false
+            }
+
+            if(this.password !== this.repeatedPassword) {
+                this.alertM(300, 'password does not match');
+                return false;
+            }
+            return true;
+        },
+        alertM(statusCode, alertMessage) {
+            this.statusCode = statusCode;
+            this.alertMessage = alertMessage;
+
+            setTimeout( function () {
+                this.statusCode = 200;
+                this.alertMessage = '';
+            }.bind(this), 4000);
         }
     }
 }
+
+
 </script>
