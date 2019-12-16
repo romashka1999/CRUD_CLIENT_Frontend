@@ -74,9 +74,9 @@ export default {
 
             try {
                 const response = await axios.post(this.baseUrl + '/account/loginUser', loginedUser);
-                console.log(response);
-                localStorage.setItem('token', response.token);
-                localStorage.setItem('refreshToken', response.refreshToken);
+                console.log(response.data);
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('refreshToken', response.data.refreshToken);
                 this.$router.push('/');
             } catch (error) {
                 console.log(error.response.data);

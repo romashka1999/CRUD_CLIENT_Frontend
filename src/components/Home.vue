@@ -23,6 +23,8 @@
 
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Home',
     data() {
@@ -30,16 +32,32 @@ export default {
             baseUrl: 'http://localhost:8000',
         }
     },
-    // created() {
-    //     if(localStorage.getItem('token') === null || localStorage.getItem('refreshToken') === null) {
-    //         this.$router.push('/login');
-    //     }
-    // },
-    // methods: {
-    //     logout() {
-    //         localStorage.clear();
-    //         this.$router.push('/login');
-    //     }
-    // }
+    async created() {
+        if(localStorage.getItem('token') === null || localStorage.getItem('refreshToken') === null) {
+            this.$router.push('/login');
+        }
+
+        const headers = { 
+                "token": localStorage.getItem('token'),
+                "refreshToken": localStorage.getItem('refreshToken')
+        };
+
+        const options = { headers: headers};
+
+        try {
+            const response = await axios.get(this.baseUrl + `/account/getUser`, options);
+            console.log(response.data);
+        } catch (err) {
+            this.error = err.response.data;
+            console.log(this.error);
+        }
+
+    },
+    methods: {
+        logout() {
+            localStorage.clear();
+            this.$router.push('/login');
+        }
+    }
 }
 </script>
